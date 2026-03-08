@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تعلم HTML و HTML5 | كورس كامل بالعربي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #00d4ff;
+      --secondary: #7c3aed;
+      --accent: #f59e0b;
+      --dark: #0a0e1a;
+      --dark2: #111827;
+      --dark3: #1f2937;
+      --dark4: #374151;
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --success: #10b981;
+      --danger: #ef4444;
+      --sidebar-w: 280px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--dark2);
+      border-left: 1px solid #1f2937;
+      height: 100vh;
+      position: fixed;
+      right: 0;
+      top: 0;
+      overflow-y: auto;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: var(--dark2); }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 4px; }
+
+    .sidebar-logo {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--dark3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: white;
+    }
+
+    .logo-text { font-size: 18px; font-weight: 900; }
+    .logo-text span { color: var(--primary); }
+
+    .sidebar-section { padding: 16px 0; }
+
+    .section-label {
+      padding: 6px 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-right: 3px solid transparent;
+      transition: all 0.2s;
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .sidebar-item:hover {
+      background: rgba(0,212,255,0.05);
+      color: var(--text);
+      border-right-color: var(--primary);
+    }
+
+    .sidebar-item.active {
+      background: rgba(0,212,255,0.1);
+      color: var(--primary);
+      border-right-color: var(--primary);
+    }
+
+    .sidebar-item .num {
+      font-size: 11px;
+      background: var(--dark3);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Fira Code', monospace;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    .sidebar-item.active .num { background: var(--primary); color: var(--dark); }
+
+    /* ===== MAIN CONTENT ===== */
+    .main {
+      margin-right: var(--sidebar-w);
+      flex: 1;
+      min-height: 100vh;
+    }
+
+    /* ===== TOP BAR ===== */
+    .topbar {
+      background: var(--dark2);
+      border-bottom: 1px solid var(--dark3);
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title { font-size: 15px; font-weight: 600; color: var(--text-muted); }
+    .topbar-title span { color: var(--text); font-weight: 700; }
+
+    .progress-bar-wrap {
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .progress-label { font-size: 13px; color: var(--text-muted); }
+
+    .progress-track {
+      width: 140px; height: 6px;
+      background: var(--dark3);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--dark2) 0%, #0d1424 100%);
+      padding: 60px 60px 40px;
+      border-bottom: 1px solid var(--dark3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '</>';
+      position: absolute;
+      left: 40px; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Fira Code', monospace;
+      font-size: 120px;
+      font-weight: 700;
+      color: rgba(0,212,255,0.04);
+      user-select: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.3);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 600px;
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-num { font-size: 24px; font-weight: 900; color: var(--primary); }
+    .stat-label { font-size: 12px; color: var(--text-muted); }
+
+    /* ===== CONTENT AREA ===== */
+    .content {
+      padding: 48px 60px;
+      max-width: 900px;
+    }
+
+    /* ===== LESSON CARD ===== */
+    .lesson-card {
+      background: var(--dark2);
+      border: 1px solid var(--dark3);
+      border-radius: 16px;
+      margin-bottom: 40px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .lesson-card:hover { border-color: rgba(0,212,255,0.3); }
+
+    .lesson-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--dark3);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .lesson-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .lesson-icon.blue { background: rgba(0,212,255,0.15); }
+    .lesson-icon.purple { background: rgba(124,58,237,0.15); }
+    .lesson-icon.yellow { background: rgba(245,158,11,0.15); }
+    .lesson-icon.green { background: rgba(16,185,129,0.15); }
+    .lesson-icon.red { background: rgba(239,68,68,0.15); }
+
+    .lesson-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+    .lesson-subtitle { font-size: 13px; color: var(--text-muted); }
+
+    .lesson-tag {
+      margin-right: auto;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .lesson-tag.beginner { background: rgba(16,185,129,0.15); color: var(--success); }
+    .lesson-tag.intermediate { background: rgba(245,158,11,0.15); color: var(--accent); }
+    .lesson-tag.html5 { background: rgba(239,68,68,0.15); color: var(--danger); }
+
+    .lesson-body { padding: 28px; }
+
+    .lesson-body p {
+      font-size: 15px;
+      line-height: 2;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .lesson-body p strong { color: var(--text); font-weight: 700; }
+
+    /* ===== CODE BLOCK ===== */
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--dark4);
+      border-radius: 10px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .code-topbar {
+      background: var(--dark3);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .code-dots { display: flex; gap: 6px; }
+    .code-dots span {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+    .code-dots span:nth-child(1) { background: #ef4444; }
+    .code-dots span:nth-child(2) { background: #f59e0b; }
+    .code-dots span:nth-child(3) { background: #10b981; }
+
+    .code-lang {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: 'Fira Code', monospace;
+    }
+
+    .code-copy {
+      background: var(--dark4);
+      border: none;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    .code-copy:hover { background: var(--primary); color: var(--dark); }
+
+    .code-content {
+      padding: 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 14px;
+      line-height: 2;
+      overflow-x: auto;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .code-content .tag { color: #f97316; }
+    .code-content .attr { color: #60a5fa; }
+    .code-content .val { color: #a3e635; }
+    .code-content .cmt { color: #6b7280; font-style: italic; }
+    .code-content .txt { color: #e5e7eb; }
+    .code-content .kw { color: #c084fc; }
+    .code-content .str { color: #86efac; }
+
+    /* ===== TIPS BOX ===== */
+    .tip-box {
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .tip-box.info { background: rgba(0,212,255,0.08); border-right: 3px solid var(--primary); }
+    .tip-box.warn { background: rgba(245,158,11,0.08); border-right: 3px solid var(--accent); }
+    .tip-box.success { background: rgba(16,185,129,0.08); border-right: 3px solid var(--success); }
+    .tip-box.danger { background: rgba(239,68,68,0.08); border-right: 3px solid var(--danger); }
+
+    .tip-icon { font-size: 20px; margin-top: 1px; }
+    .tip-content { font-size: 14px; line-height: 1.8; color: var(--text); }
+    .tip-content strong { font-weight: 700; display: block; margin-bottom: 4px; }
+
+    /* ===== TAG TABLE ===== */
+    .tag-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    .tag-table th {
+      background: var(--dark3);
+      padding: 12px 16px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+      border-bottom: 2px solid var(--dark4);
+    }
+
+    .tag-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--dark3);
+      color: var(--text-muted);
+    }
+
+    .tag-table tr:hover td { background: rgba(0,212,255,0.03); color: var(--text); }
+
+    .tag-table code {
+      font-family: 'Fira Code', monospace;
+      background: var(--dark3);
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: #f97316;
+      font-size: 13px;
+    }
+
+    /* ===== MINI QUIZ ===== */
+    .quiz-box {
+      background: var(--dark3);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .quiz-title { font-size: 16px; font-weight: 800; margin-bottom: 16px; color: var(--accent); }
+
+    .quiz-q { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+
+    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+
+    .quiz-opt {
+      background: var(--dark2);
+      border: 1px solid var(--dark4);
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .quiz-opt:hover { border-color: var(--primary); color: var(--primary); }
+    .quiz-opt.correct { border-color: var(--success); background: rgba(16,185,129,0.1); color: var(--success); }
+    .quiz-opt.wrong { border-color: var(--danger); background: rgba(239,68,68,0.1); color: var(--danger); }
+    .quiz-opt .opt-letter {
+      width: 24px; height: 24px;
+      border-radius: 6px;
+      background: var(--dark4);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 12px;
+    }
+
+    /* ===== SECTION DIVIDER ===== */
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: 40px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--dark3);
+    }
+
+    /* ===== ATTRIBUTE GRID ===== */
+    .attr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .attr-item {
+      background: var(--dark3);
+      border-radius: 10px;
+      padding: 14px;
+      border: 1px solid var(--dark4);
+    }
+
+    .attr-item code {
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      color: var(--primary);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .attr-item p { font-size: 13px; color: var(--text-muted); }
+
+    /* ===== NEXT LESSON BTN ===== */
+    .next-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--primary), #0099bb);
+      color: var(--dark);
+      font-family: 'Cairo', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 24px;
+    }
+
+    .next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,255,0.3); }
+
+    /* ===== MOBILE TOGGLE ===== */
+    .menu-toggle {
+      display: none;
+      background: var(--dark3);
+      border: none;
+      color: var(--text);
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 90;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-right: 0; }
+      .menu-toggle { display: flex; }
+      .overlay.show { display: block; }
+      .hero { padding: 36px 24px 28px; }
+      .hero h1 { font-size: 28px; }
+      .content { padding: 32px 24px; }
+      .hero::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Overlay for mobile -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">H</div>
+    <div class="logo-text"><span>HTML</span>تعلم</div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="section-label">المقدمة</div>
+    <a class="sidebar-item active" href="#intro" onclick="setActive(this)">
+      <span class="num">01</span> ما هو HTML؟
+    </a>
+    <a class="sidebar-item" href="#structure" onclick="setActive(this)">
+      <span class="num">02</span> هيكل الصفحة
+    </a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="section-label">عناصر HTML</div>
+    <a class="sidebar-item" href="#headings" onclick="setActive(this)">
+      <span class="num">03</span> العناوين Headings
+    </a>
+    <a class="sidebar-item" href="#text" onclick="setActive(this)">
+      <span class="num">04</span> النصوص والفقرات
+    </a>
+    <a class="sidebar-item" href="#links" onclick="setActive(this)">
+      <span class="num">05</span> الروابط Links
+    </a>
+    <a class="sidebar-item" href="#images" onclick="setActive(this)">
+      <span class="num">06</span> الصور Images
+    </a>
+    <a class="sidebar-item" href="#lists" onclick="setActive(this)">
+      <span class="num">07</span> القوائم Lists
+    </a>
+    <a class="sidebar-item" href="#tables" onclick="setActive(this)">
+      <span class="num">08</span> الجداول Tables
+    </a>
+    <a class="sidebar-item" href="#forms" onclick="setActive(this)">
+      <span class="num">09</span> النماذج Forms
+    </a>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="section-label">HTML5</div>
+    <a class="sidebar-item" href="#semantic" onclick="setActive(this)">
+      <span class="num">10</span> العناصر الدلالية
+    </a>
+    <a class="sidebar-item" href="#media" onclick="setActive(this)">
+      <span class="num">11</span> الميديا Audio & Video
+    </a>
+    <a class="sidebar-item" href="#canvas" onclick="setActive(this)">
+      <span class="num">12</span> Canvas و SVG
+    </a>
+    <a class="sidebar-item" href="#storage" onclick="setActive(this)">
+      <span class="num">13</span> Local Storage
+    </a>
+    <a class="sidebar-item" href="#newforms" onclick="setActive(this)">
+      <span class="num">14</span> Forms الجديدة
+    </a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title">كورس <span>HTML & HTML5</span></div>
+    </div>
+    <div class="progress-bar-wrap">
+      <span class="progress-label">تقدمك</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <span class="progress-label" id="progressText">0%</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🎓 كورس مجاني كامل</div>
+    <h1>تعلم <span class="highlight">HTML و HTML5</span><br/>من الصفر للاحتراف</h1>
+    <p>
+      دليلك الشامل لتعلم لغة HTML من أول سطر كود لحد ما تبني صفحات ويب كاملة.
+      هنغطي كل حاجة من العناصر الأساسية وصولاً لأحدث مميزات HTML5.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">14</span><span class="stat-label">درس</span></div>
+      <div class="stat"><span class="stat-num">50+</span><span class="stat-label">مثال كود</span></div>
+      <div class="stat"><span class="stat-num">5</span><span class="stat-label">اختبارات</span></div>
+      <div class="stat"><span class="stat-num">0</span><span class="stat-label">متطلبات مسبقة</span></div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ===== LESSON 1: ما هو HTML ===== -->
+    <div class="lesson-card" id="intro">
+      <div class="lesson-header">
+        <div class="lesson-icon blue">🌐</div>
+        <div>
+          <div class="lesson-title">ما هو HTML؟</div>
+          <div class="lesson-subtitle">الدرس الأول — مقدمة وأساسيات</div>
+        </div>
+        <span class="lesson-tag beginner">مبتدئ</span>
+      </div>
+      <div class="lesson-body">
+        <p>
+          <strong>HTML</strong> اختصار لـ <strong>HyperText Markup Language</strong>، وهي الـ لغة الأساسية اللي بيتبنى بيها الويب كله.
+          مش لغة برمجة بالمعنى الحرفي، لكنها <strong>لغة توصيف</strong> بتخليك تقول للمتصفح إزاي يعرض المحتوى.
+        </p>
+        <p>
+          فكر فيها كأنها <strong>هيكل العضام</strong> للصفحة — CSS بتاخد دور المظهر والجمال، وJavaScript بتاخد دور الحركة والتفاعل.
+          لكن من غير HTML، مفيش حاجة تتبني عليها!
+        </p>
+
+        <div class="tip-box info">
+          <div class="tip-icon">💡</div>
+          <div class="tip-content">
+            <strong>معلومة سريعة</strong>
+            HTML اتعملت سنة 1991 على إيد Tim Berners-Lee، واللي بيعتبر أبو الإنترنت. النسخة الحالية هي HTML5 اللي اتنزلت رسمياً سنة 2014.
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="cmt">&lt;!-- أول HTML في حياتك 🎉 --&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+  <span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;title&gt;</span><span class="txt">أول صفحة ويب</span><span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;/head&gt;</span>
+  <span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h1&gt;</span><span class="txt">أهلاً بالعالم!</span><span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;p&gt;</span><span class="txt">ده أول كود HTML بكتبه 🚀</span><span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span>
+          </div>
+        </div>
+
+        <button class="next-btn" onclick="scrollToNext('structure')">الدرس التالي ←</button>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 2: هيكل الصفحة ===== -->
+    <div class="lesson-card" id="structure">
+      <div class="lesson-header">
+        <div class="lesson-icon purple">🏗️</div>
+        <div>
+          <div class="lesson-title">هيكل صفحة HTML</div>
+          <div class="lesson-subtitle">الدرس الثاني — الهيكل الأساسي</div>
+        </div>
+        <span class="lesson-tag beginner">مبتدئ</span>
+      </div>
+      <div class="lesson-body">
+        <p>
+          كل صفحة HTML لازم يكون ليها <strong>هيكل ثابت</strong>. زي ما البيت عنده أساس وحوائط وسقف، الصفحة عندها <code style="font-family:'Fira Code';background:var(--dark3);padding:2px 6px;border-radius:4px;color:#f97316">&lt;!DOCTYPE&gt;</code> وـ <code style="font-family:'Fira Code';background:var(--dark3);padding:2px 6px;border-radius:4px;color:#f97316">&lt;head&gt;</code> وـ <code style="font-family:'Fira Code';background:var(--dark3);padding:2px 6px;border-radius:4px;color:#f97316">&lt;body&gt;</code>.
+        </p>
+
+        <table class="tag-table">
+          <tr>
+            <th>الوسم</th>
+            <th>وظيفته</th>
+          </tr>
+          <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>بيخبر المتصفح إن الصفحة دي HTML5</td></tr>
+          <tr><td><code>&lt;html&gt;</code></td><td>الجذر الأساسي للصفحة كلها</td></tr>
+          <tr><td><code>&lt;head&gt;</code></td><td>معلومات الصفحة (مش بتتعرض للزوار)</td></tr>
+          <tr><td><code>&lt;title&gt;</code></td><td>اسم الصفحة اللي بيظهر في التاب</td></tr>
+          <tr><td><code>&lt;meta&gt;</code></td><td>معلومات إضافية زي الترميز واللغة</td></tr>
+          <tr><td><code>&lt;body&gt;</code></td><td>كل المحتوى المرئي بتاع الصفحة</td></tr>
+        </table>
+
+        <div class="tip-box warn">
+          <div class="tip-icon">⚠️</div>
+          <div class="tip-content">
+            <strong>لازم تعرفها</strong>
+            دايماً حط <code style="font-family:'Fira Code';color:#f97316">charset="UTF-8"</code> في الـ meta عشان الحروف العربية تتعرض صح!
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML — الهيكل الكامل</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html <span class="attr">lang</span>=<span class="val">"ar"</span> <span class="attr">dir</span>=<span class="val">"rtl"</span>&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta <span class="attr">charset</span>=<span class="val">"UTF-8"</span>&gt;</span>
+  <span class="tag">&lt;meta <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+  <span class="tag">&lt;title&gt;</span><span class="txt">عنوان الصفحة</span><span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+  <span class="cmt">&lt;!-- المحتوى هنا --&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 3: Headings ===== -->
+    <div class="lesson-card" id="headings">
+      <div class="lesson-header">
+        <div class="lesson-icon yellow">📝</div>
+        <div>
+          <div class="lesson-title">العناوين — Headings</div>
+          <div class="lesson-subtitle">الدرس الثالث — من h1 لـ h6</div>
+        </div>
+        <span class="lesson-tag beginner">مبتدئ</span>
+      </div>
+      <div class="lesson-body">
+        <p>
+          HTML عندها <strong>6 مستويات</strong> للعناوين من <strong>h1</strong> (الأكبر والأهم) لـ <strong>h6</strong> (الأصغر). المتصفحات والـ SEO بيولوا أهمية كبيرة للـ h1 — خليه واحد بس في الصفحة.
+        </p>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="tag">&lt;h1&gt;</span><span class="txt">عنوان رئيسي - الأكبر</span><span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span><span class="txt">عنوان ثانوي</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;h3&gt;</span><span class="txt">عنوان من المستوى الثالث</span><span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;h4&gt;</span><span class="txt">عنوان من المستوى الرابع</span><span class="tag">&lt;/h4&gt;</span>
+<span class="tag">&lt;h5&gt;</span><span class="txt">عنوان من المستوى الخامس</span><span class="tag">&lt;/h5&gt;</span>
+<span class="tag">&lt;h6&gt;</span><span class="txt">عنوان صغير - المستوى السادس</span><span class="tag">&lt;/h6&gt;</span>
+          </div>
+        </div>
+
+        <div class="quiz-box">
+          <div class="quiz-title">🧠 اختبر نفسك</div>
+          <div class="quiz-q">إيه العنوان الأهم لمحركات البحث؟</div>
+          <div class="quiz-options">
+            <div class="quiz-opt" onclick="answerQuiz(this, false)"><span class="opt-letter">أ</span> &lt;h6&gt;</div>
+            <div class="quiz-opt" onclick="answerQuiz(this, true)"><span class="opt-letter">ب</span> &lt;h1&gt;</div>
+            <div class="quiz-opt" onclick="answerQuiz(this, false)"><span class="opt-letter">ج</span> &lt;title&gt;</div>
+            <div class="quiz-opt" onclick="answerQuiz(this, false)"><span class="opt-letter">د</span> &lt;header&gt;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 4: النصوص ===== -->
+    <div class="lesson-card" id="text">
+      <div class="lesson-header">
+        <div class="lesson-icon blue">✍️</div>
+        <div>
+          <div class="lesson-title">النصوص والتنسيق</div>
+          <div class="lesson-subtitle">الدرس الرابع — p, strong, em, br, hr</div>
+        </div>
+        <span class="lesson-tag beginner">مبتدئ</span>
+      </div>
+      <div class="lesson-body">
+        <p>النصوص في HTML بتتكتب جوه وسوم مخصصة لكل نوع. أهمهم عنصر الفقرة <strong>&lt;p&gt;</strong> واللي بيكون المحتوى النصي الأساسي.</p>
+
+        <div class="attr-grid">
+          <div class="attr-item"><code>&lt;p&gt;</code><p>فقرة نصية عادية</p></div>
+          <div class="attr-item"><code>&lt;strong&gt;</code><p>نص عريض Bold مهم</p></div>
+          <div class="attr-item"><code>&lt;em&gt;</code><p>نص مائل Italic</p></div>
+          <div class="attr-item"><code>&lt;br&gt;</code><p>سطر جديد (بدون إغلاق)</p></div>
+          <div class="attr-item"><code>&lt;hr&gt;</code><p>خط أفقي فاصل</p></div>
+          <div class="attr-item"><code>&lt;span&gt;</code><p>تنسيق جزء من النص</p></div>
+          <div class="attr-item"><code>&lt;mark&gt;</code><p>تظليل نص (HTML5)</p></div>
+          <div class="attr-item"><code>&lt;small&gt;</code><p>نص أصغر حجماً</p></div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="tag">&lt;p&gt;</span><span class="txt">ده نص عادي في فقرة.</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span><span class="txt">ده نص فيه </span><span class="tag">&lt;strong&gt;</span><span class="txt">جزء مهم</span><span class="tag">&lt;/strong&gt;</span><span class="txt"> وجزء </span><span class="tag">&lt;em&gt;</span><span class="txt">مائل</span><span class="tag">&lt;/em&gt;</span><span class="txt">.</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>
+  <span class="txt">السطر ده</span><span class="tag">&lt;br&gt;</span>
+  <span class="txt">والسطر ده في نفس الفقرة.</span>
+<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;hr&gt;</span>
+
+<span class="tag">&lt;p&gt;</span><span class="txt">نص تحت الخط الفاصل.</span><span class="tag">&lt;/p&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 5: Roabaat ===== -->
+    <div class="lesson-card" id="links">
+      <div class="lesson-header">
+        <div class="lesson-icon green">🔗</div>
+        <div>
+          <div class="lesson-title">الروابط — Links</div>
+          <div class="lesson-subtitle">الدرس الخامس — وسم &lt;a&gt;</div>
+        </div>
+        <span class="lesson-tag beginner">مبتدئ</span>
+      </div>
+      <div class="lesson-body">
+        <p>الروابط هي روح الويب! كل رابط بتشوفه على الإنترنت هو عنصر <strong>&lt;a&gt;</strong> بسيط. الخاصية الأساسية هي <strong>href</strong> اللي بتحدد وجهة الرابط.</p>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="cmt">&lt;!-- رابط خارجي --&gt;</span>
+<span class="tag">&lt;a <span class="attr">href</span>=<span class="val">"https://google.com"</span> <span class="attr">target</span>=<span class="val">"_blank"</span>&gt;</span>
+  <span class="txt">افتح Google في تاب جديد</span>
+<span class="tag">&lt;/a&gt;</span>
+
+<span class="cmt">&lt;!-- رابط داخلي في نفس الموقع --&gt;</span>
+<span class="tag">&lt;a <span class="attr">href</span>=<span class="val">"about.html"</span>&gt;</span><span class="txt">صفحة عننا</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="cmt">&lt;!-- رابط لجزء في نفس الصفحة --&gt;</span>
+<span class="tag">&lt;a <span class="attr">href</span>=<span class="val">"#contact"</span>&gt;</span><span class="txt">اتصل بينا</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="cmt">&lt;!-- رابط إيميل --&gt;</span>
+<span class="tag">&lt;a <span class="attr">href</span>=<span class="val">"mailto:test@example.com"</span>&gt;</span><span class="txt">ابعتلنا ميل</span><span class="tag">&lt;/a&gt;</span>
+          </div>
+        </div>
+
+        <div class="tip-box success">
+          <div class="tip-icon">✅</div>
+          <div class="tip-content">
+            <strong>نصيحة</strong>
+            استخدم <code style="font-family:'Fira Code';color:#f97316">target="_blank"</code> للروابط الخارجية عشان تفتح في تاب جديد وتحافظ على المستخدم في موقعك.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 6: Images ===== -->
+    <div class="lesson-card" id="images">
+      <div class="lesson-header">
+        <div class="lesson-icon yellow">🖼️</div>
+        <div>
+          <div class="lesson-title">الصور — Images</div>
+          <div class="lesson-subtitle">الدرس السادس — وسم &lt;img&gt;</div>
+        </div>
+        <span class="lesson-tag beginner">مبتدئ</span>
+      </div>
+      <div class="lesson-body">
+        <p>وسم <strong>&lt;img&gt;</strong> بيعرض الصور في الصفحة. لاحظ إنه <strong>وسم ذاتي الإغلاق</strong> (Self-closing) يعني مفيش <code style="font-family:'Fira Code';background:var(--dark3);padding:2px 6px;border-radius:4px;color:#f97316">&lt;/img&gt;</code>.</p>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="cmt">&lt;!-- صورة أساسية --&gt;</span>
+<span class="tag">&lt;img <span class="attr">src</span>=<span class="val">"photo.jpg"</span> <span class="attr">alt</span>=<span class="val">"وصف الصورة"</span>&gt;</span>
+
+<span class="cmt">&lt;!-- صورة بعرض وارتفاع محددين --&gt;</span>
+<span class="tag">&lt;img <span class="attr">src</span>=<span class="val">"logo.png"</span> 
+     <span class="attr">alt</span>=<span class="val">"الشعار"</span>
+     <span class="attr">width</span>=<span class="val">"200"</span> 
+     <span class="attr">height</span>=<span class="val">"100"</span>&gt;</span>
+
+<span class="cmt">&lt;!-- صورة من الإنترنت --&gt;</span>
+<span class="tag">&lt;img <span class="attr">src</span>=<span class="val">"https://example.com/img.jpg"</span> 
+     <span class="attr">alt</span>=<span class="val">"صورة من الإنترنت"</span>&gt;</span>
+          </div>
+        </div>
+
+        <div class="tip-box danger">
+          <div class="tip-icon">🚨</div>
+          <div class="tip-content">
+            <strong>ضروري جداً!</strong>
+            دايماً حط خاصية <code style="font-family:'Fira Code';color:#f97316">alt</code> — دي مهمة لمحركات البحث وللمكفوفين اللي بيستخدموا قارئات الشاشة. من غيرها موقعك مش accessible!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 7: Lists ===== -->
+    <div class="lesson-card" id="lists">
+      <div class="lesson-header">
+        <div class="lesson-icon purple">📋</div>
+        <div>
+          <div class="lesson-title">القوائم — Lists</div>
+          <div class="lesson-subtitle">الدرس السابع — ul, ol, dl</div>
+        </div>
+        <span class="lesson-tag beginner">مبتدئ</span>
+      </div>
+      <div class="lesson-body">
+        <p>في HTML أنواع تلاتة من القوائم. كل نوع ليه استخدام مختلف حسب المحتوى.</p>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="cmt">&lt;!-- قائمة غير مرتبة (نقاط) --&gt;</span>
+<span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">HTML</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">CSS</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">JavaScript</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span>
+
+<span class="cmt">&lt;!-- قائمة مرتبة (أرقام) --&gt;</span>
+<span class="tag">&lt;ol&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">الخطوة الأولى</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">الخطوة الثانية</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">الخطوة الثالثة</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span>
+
+<span class="cmt">&lt;!-- قائمة تعريفات --&gt;</span>
+<span class="tag">&lt;dl&gt;</span>
+  <span class="tag">&lt;dt&gt;</span><span class="txt">HTML</span><span class="tag">&lt;/dt&gt;</span>
+  <span class="tag">&lt;dd&gt;</span><span class="txt">لغة توصيف الويب</span><span class="tag">&lt;/dd&gt;</span>
+<span class="tag">&lt;/dl&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 8: Tables ===== -->
+    <div class="lesson-card" id="tables">
+      <div class="lesson-header">
+        <div class="lesson-icon green">📊</div>
+        <div>
+          <div class="lesson-title">الجداول — Tables</div>
+          <div class="lesson-subtitle">الدرس الثامن — table, tr, th, td</div>
+        </div>
+        <span class="lesson-tag intermediate">متوسط</span>
+      </div>
+      <div class="lesson-body">
+        <p>الجداول بتُستخدم لعرض البيانات في صفوف وأعمدة. كل جدول بيتكون من <strong>rows (صفوف)</strong> وكل صف بيتكون من <strong>cells (خانات)</strong>.</p>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="tag">&lt;table <span class="attr">border</span>=<span class="val">"1"</span>&gt;</span>
+  <span class="cmt">&lt;!-- رأس الجدول --&gt;</span>
+  <span class="tag">&lt;thead&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;th&gt;</span><span class="txt">الاسم</span><span class="tag">&lt;/th&gt;</span>
+      <span class="tag">&lt;th&gt;</span><span class="txt">العمر</span><span class="tag">&lt;/th&gt;</span>
+      <span class="tag">&lt;th&gt;</span><span class="txt">المدينة</span><span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;/thead&gt;</span>
+  <span class="cmt">&lt;!-- جسم الجدول --&gt;</span>
+  <span class="tag">&lt;tbody&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;td&gt;</span><span class="txt">أحمد</span><span class="tag">&lt;/td&gt;</span>
+      <span class="tag">&lt;td&gt;</span><span class="txt">25</span><span class="tag">&lt;/td&gt;</span>
+      <span class="tag">&lt;td&gt;</span><span class="txt">القاهرة</span><span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;/tbody&gt;</span>
+<span class="tag">&lt;/table&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 9: Forms ===== -->
+    <div class="lesson-card" id="forms">
+      <div class="lesson-header">
+        <div class="lesson-icon red">📝</div>
+        <div>
+          <div class="lesson-title">النماذج — Forms</div>
+          <div class="lesson-subtitle">الدرس التاسع — form, input, button</div>
+        </div>
+        <span class="lesson-tag intermediate">متوسط</span>
+      </div>
+      <div class="lesson-body">
+        <p>النماذج هي الطريقة الأساسية لاستقبال بيانات من المستخدم — تسجيل دخول، بحث، إرسال بيانات، إلخ. كل حاجة بتكتبها على الإنترنت هي Form!</p>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="tag">&lt;form <span class="attr">action</span>=<span class="val">"/submit"</span> <span class="attr">method</span>=<span class="val">"post"</span>&gt;</span>
+
+  <span class="cmt">&lt;!-- حقل نص --&gt;</span>
+  <span class="tag">&lt;label <span class="attr">for</span>=<span class="val">"name"</span>&gt;</span><span class="txt">الاسم:</span><span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;input <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"name"</span> <span class="attr">placeholder</span>=<span class="val">"اكتب اسمك"</span>&gt;</span>
+
+  <span class="cmt">&lt;!-- حقل إيميل --&gt;</span>
+  <span class="tag">&lt;input <span class="attr">type</span>=<span class="val">"email"</span> <span class="attr">placeholder</span>=<span class="val">"البريد الإلكتروني"</span>&gt;</span>
+
+  <span class="cmt">&lt;!-- كلمة مرور --&gt;</span>
+  <span class="tag">&lt;input <span class="attr">type</span>=<span class="val">"password"</span> <span class="attr">placeholder</span>=<span class="val">"كلمة المرور"</span>&gt;</span>
+
+  <span class="cmt">&lt;!-- زر الإرسال --&gt;</span>
+  <span class="tag">&lt;button <span class="attr">type</span>=<span class="val">"submit"</span>&gt;</span><span class="txt">إرسال</span><span class="tag">&lt;/button&gt;</span>
+
+<span class="tag">&lt;/form&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== HTML5 SECTION ===== -->
+    <div class="section-title">🚀 HTML5 — المميزات الجديدة</div>
+
+    <!-- ===== LESSON 10: Semantic ===== -->
+    <div class="lesson-card" id="semantic">
+      <div class="lesson-header">
+        <div class="lesson-icon purple">🧩</div>
+        <div>
+          <div class="lesson-title">العناصر الدلالية — Semantic HTML</div>
+          <div class="lesson-subtitle">الدرس العاشر — header, nav, main, footer</div>
+        </div>
+        <span class="lesson-tag html5">HTML5</span>
+      </div>
+      <div class="lesson-body">
+        <p>
+          من أهم مميزات HTML5 هي <strong>العناصر الدلالية</strong> (Semantic Elements). قبل HTML5 كنا بنستخدم <code style="font-family:'Fira Code';background:var(--dark3);padding:2px 6px;border-radius:4px;color:#f97316">&lt;div&gt;</code> لكل حاجة — دلوقتي عندنا عناصر ليها معنى واضح.
+        </p>
+
+        <div class="attr-grid">
+          <div class="attr-item"><code>&lt;header&gt;</code><p>رأس الصفحة أو القسم</p></div>
+          <div class="attr-item"><code>&lt;nav&gt;</code><p>قائمة التنقل</p></div>
+          <div class="attr-item"><code>&lt;main&gt;</code><p>المحتوى الرئيسي</p></div>
+          <div class="attr-item"><code>&lt;section&gt;</code><p>قسم من المحتوى</p></div>
+          <div class="attr-item"><code>&lt;article&gt;</code><p>مقالة أو محتوى مستقل</p></div>
+          <div class="attr-item"><code>&lt;aside&gt;</code><p>محتوى جانبي</p></div>
+          <div class="attr-item"><code>&lt;footer&gt;</code><p>تذييل الصفحة</p></div>
+          <div class="attr-item"><code>&lt;figure&gt;</code><p>صورة مع تعليق</p></div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML5 — هيكل صفحة احترافي</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;header&gt;</span>
+    <span class="tag">&lt;nav&gt;</span><span class="txt">... قائمة التنقل ...</span><span class="tag">&lt;/nav&gt;</span>
+  <span class="tag">&lt;/header&gt;</span>
+
+  <span class="tag">&lt;main&gt;</span>
+    <span class="tag">&lt;section&gt;</span>
+      <span class="tag">&lt;article&gt;</span>
+        <span class="tag">&lt;h2&gt;</span><span class="txt">عنوان المقالة</span><span class="tag">&lt;/h2&gt;</span>
+        <span class="tag">&lt;p&gt;</span><span class="txt">محتوى المقالة...</span><span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;/article&gt;</span>
+    <span class="tag">&lt;/section&gt;</span>
+
+    <span class="tag">&lt;aside&gt;</span><span class="txt">... محتوى جانبي ...</span><span class="tag">&lt;/aside&gt;</span>
+  <span class="tag">&lt;/main&gt;</span>
+
+  <span class="tag">&lt;footer&gt;</span>
+    <span class="tag">&lt;p&gt;</span><span class="txt">جميع الحقوق محفوظة © 2025</span><span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/footer&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 11: Media ===== -->
+    <div class="lesson-card" id="media">
+      <div class="lesson-header">
+        <div class="lesson-icon blue">🎬</div>
+        <div>
+          <div class="lesson-title">الميديا — Audio & Video</div>
+          <div class="lesson-subtitle">الدرس الحادي عشر — video, audio</div>
+        </div>
+        <span class="lesson-tag html5">HTML5</span>
+      </div>
+      <div class="lesson-body">
+        <p>HTML5 جاب دعم native للفيديو والصوت من غير ما تحتاج Flash أو أي plugin خارجي. دلوقتي أي متصفح حديث بيشغل الميديا مباشرة!</p>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML5</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="cmt">&lt;!-- فيديو --&gt;</span>
+<span class="tag">&lt;video <span class="attr">width</span>=<span class="val">"640"</span> <span class="attr">height</span>=<span class="val">"360"</span> <span class="attr">controls</span>&gt;</span>
+  <span class="tag">&lt;source <span class="attr">src</span>=<span class="val">"movie.mp4"</span> <span class="attr">type</span>=<span class="val">"video/mp4"</span>&gt;</span>
+  <span class="tag">&lt;source <span class="attr">src</span>=<span class="val">"movie.ogg"</span> <span class="attr">type</span>=<span class="val">"video/ogg"</span>&gt;</span>
+  <span class="txt">متصفحك مش بيدعم الفيديو.</span>
+<span class="tag">&lt;/video&gt;</span>
+
+<span class="cmt">&lt;!-- صوت --&gt;</span>
+<span class="tag">&lt;audio <span class="attr">controls</span>&gt;</span>
+  <span class="tag">&lt;source <span class="attr">src</span>=<span class="val">"song.mp3"</span> <span class="attr">type</span>=<span class="val">"audio/mpeg"</span>&gt;</span>
+  <span class="txt">متصفحك مش بيدعم الصوت.</span>
+<span class="tag">&lt;/audio&gt;</span>
+
+<span class="cmt">&lt;!-- فيديو يوتيوب عبر iframe --&gt;</span>
+<span class="tag">&lt;iframe <span class="attr">src</span>=<span class="val">"https://www.youtube.com/embed/VIDEO_ID"</span>
+        <span class="attr">width</span>=<span class="val">"560"</span> <span class="attr">height</span>=<span class="val">"315"</span>
+        <span class="attr">allowfullscreen</span>&gt;</span><span class="tag">&lt;/iframe&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 12: Canvas ===== -->
+    <div class="lesson-card" id="canvas">
+      <div class="lesson-header">
+        <div class="lesson-icon yellow">🎨</div>
+        <div>
+          <div class="lesson-title">Canvas و SVG</div>
+          <div class="lesson-subtitle">الدرس الثاني عشر — رسم في المتصفح</div>
+        </div>
+        <span class="lesson-tag html5">HTML5</span>
+      </div>
+      <div class="lesson-body">
+        <p>
+          <strong>Canvas</strong> بيخليك ترسم جرافيك وألعاب وأشكال بـ JavaScript مباشرة.
+          <strong>SVG</strong> لغة رسوميات قابلة للتكبير — مثالية للأيقونات والشعارات.
+        </p>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML5 Canvas</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="cmt">&lt;!-- Canvas element --&gt;</span>
+<span class="tag">&lt;canvas <span class="attr">id</span>=<span class="val">"myCanvas"</span> <span class="attr">width</span>=<span class="val">"400"</span> <span class="attr">height</span>=<span class="val">"200"</span>&gt;</span><span class="tag">&lt;/canvas&gt;</span>
+
+<span class="tag">&lt;script&gt;</span>
+  <span class="kw">const</span> canvas = document.getElementById(<span class="str">'myCanvas'</span>);
+  <span class="kw">const</span> ctx = canvas.getContext(<span class="str">'2d'</span>);
+  
+  <span class="cmt">// ارسم مستطيل أحمر</span>
+  ctx.fillStyle = <span class="str">'#ef4444'</span>;
+  ctx.fillRect(<span class="str">10</span>, <span class="str">10</span>, <span class="str">150</span>, <span class="str">100</span>);
+  
+  <span class="cmt">// ارسم نص</span>
+  ctx.fillStyle = <span class="str">'white'</span>;
+  ctx.font = <span class="str">'20px Cairo'</span>;
+  ctx.fillText(<span class="str">'مرحباً!'</span>, <span class="str">40</span>, <span class="str">65</span>);
+<span class="tag">&lt;/script&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 13: Local Storage ===== -->
+    <div class="lesson-card" id="storage">
+      <div class="lesson-header">
+        <div class="lesson-icon green">💾</div>
+        <div>
+          <div class="lesson-title">Local Storage</div>
+          <div class="lesson-subtitle">الدرس الثالث عشر — تخزين بيانات في المتصفح</div>
+        </div>
+        <span class="lesson-tag html5">HTML5</span>
+      </div>
+      <div class="lesson-body">
+        <p>
+          HTML5 جاب <strong>Web Storage API</strong> اللي بتخليك تحفظ بيانات في المتصفح من غير ما تحتاج Cookies. في نوعين: <strong>localStorage</strong> (بيفضل حتى بعد إغلاق المتصفح) و<strong>sessionStorage</strong> (بيتمسح لما تغلق التاب).
+        </p>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">JavaScript + HTML5</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="cmt">// حفظ بيانات</span>
+localStorage.setItem(<span class="str">'username'</span>, <span class="str">'أحمد'</span>);
+localStorage.setItem(<span class="str">'theme'</span>, <span class="str">'dark'</span>);
+
+<span class="cmt">// استرجاع بيانات</span>
+<span class="kw">const</span> user = localStorage.getItem(<span class="str">'username'</span>);
+console.log(user); <span class="cmt">// أحمد</span>
+
+<span class="cmt">// حذف بيانات</span>
+localStorage.removeItem(<span class="str">'username'</span>);
+
+<span class="cmt">// مسح كل البيانات</span>
+localStorage.clear();
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LESSON 14: New Forms ===== -->
+    <div class="lesson-card" id="newforms">
+      <div class="lesson-header">
+        <div class="lesson-icon red">🆕</div>
+        <div>
+          <div class="lesson-title">Forms الجديدة في HTML5</div>
+          <div class="lesson-subtitle">الدرس الرابع عشر — أنواع input جديدة</div>
+        </div>
+        <span class="lesson-tag html5">HTML5</span>
+      </div>
+      <div class="lesson-body">
+        <p>HTML5 أضاف أكتر من <strong>10 أنواع جديدة</strong> لعنصر input — بيوفروا validation تلقائي وواجهات مخصصة على الموبايل!</p>
+
+        <div class="code-block">
+          <div class="code-topbar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-lang">HTML5 — أنواع Input الجديدة</span>
+            <button class="code-copy" onclick="copyCode(this)">نسخ</button>
+          </div>
+          <div class="code-content">
+<span class="cmt">&lt;!-- تاريخ --&gt;</span>
+<span class="tag">&lt;input <span class="attr">type</span>=<span class="val">"date"</span>&gt;</span>
+
+<span class="cmt">&lt;!-- وقت --&gt;</span>
+<span class="tag">&lt;input <span class="attr">type</span>=<span class="val">"time"</span>&gt;</span>
+
+<span class="cmt">&lt;!-- لون --&gt;</span>
+<span class="tag">&lt;input <span class="attr">type</span>=<span class="val">"color"</span>&gt;</span>
+
+<span class="cmt">&lt;!-- رقم بحدود --&gt;</span>
+<span class="tag">&lt;input <span class="attr">type</span>=<span class="val">"number"</span> <span class="attr">min</span>=<span class="val">"1"</span> <span class="attr">max</span>=<span class="val">"100"</span>&gt;</span>
+
+<span class="cmt">&lt;!-- شريط تمرير --&gt;</span>
+<span class="tag">&lt;input <span class="attr">type</span>=<span class="val">"range"</span> <span class="attr">min</span>=<span class="val">"0"</span> <span class="attr">max</span>=<span class="val">"100"</span>&gt;</span>
+
+<span class="cmt">&lt;!-- بحث --&gt;</span>
+<span class="tag">&lt;input <span class="attr">type</span>=<span class="val">"search"</span> <span class="attr">placeholder</span>=<span class="val">"ابحث هنا..."</span>&gt;</span>
+
+<span class="cmt">&lt;!-- required و placeholder و autofocus --&gt;</span>
+<span class="tag">&lt;input <span class="attr">type</span>=<span class="val">"email"</span> 
+       <span class="attr">required</span> 
+       <span class="attr">placeholder</span>=<span class="val">"ادخل إيميلك"</span>
+       <span class="attr">autofocus</span>&gt;</span>
+          </div>
+        </div>
+
+        <div class="tip-box success">
+          <div class="tip-icon">🎉</div>
+          <div class="tip-content">
+            <strong>تهانينا! خلصت الكورس 🚀</strong>
+            دلوقتي عندك أساس قوي في HTML و HTML5. الخطوة الجاية: تعلم CSS عشان تعمل تنسيق وتصميم، وبعد كده JavaScript للتفاعل!
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- end content -->
+</div><!-- end main -->
+
+<script>
+  function setActive(el) {
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    updateProgress();
+  }
+
+  function scrollToNext(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function toggleSidebar() {
+    const s = document.getElementById('sidebar');
+    const o = document.getElementById('overlay');
+    s.classList.toggle('open');
+    o.classList.toggle('show');
+  }
+
+  function copyCode(btn) {
+    const block = btn.closest('.code-block').querySelector('.code-content');
+    navigator.clipboard.writeText(block.innerText).then(() => {
+      btn.textContent = '✓ تم النسخ';
+      btn.style.background = 'var(--success)';
+      btn.style.color = 'var(--dark)';
+      setTimeout(() => { btn.textContent = 'نسخ'; btn.style.background = ''; btn.style.color = ''; }, 2000);
+    });
+  }
+
+  function answerQuiz(el, correct) {
+    const opts = el.closest('.quiz-options').querySelectorAll('.quiz-opt');
+    opts.forEach(o => o.style.pointerEvents = 'none');
+    if (correct) {
+      el.classList.add('correct');
+      el.innerHTML = el.innerHTML + ' ✓';
+    } else {
+      el.classList.add('wrong');
+      opts.forEach(o => {
+        if (o.dataset.correct) o.classList.add('correct');
+      });
+    }
+  }
+
+  function updateProgress() {
+    const items = document.querySelectorAll('.sidebar-item');
+    const active = Array.from(items).indexOf(document.querySelector('.sidebar-item.active'));
+    const pct = Math.round(((active + 1) / items.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = pct + '%';
+  }
+
+  // Highlight active lesson on scroll
+  const lessonIds = ['intro','structure','headings','text','links','images','lists','tables','forms','semantic','media','canvas','storage','newforms'];
+
+  window.addEventListener('scroll', () => {
+    let current = lessonIds[0];
+    lessonIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top < 120) current = id;
+    });
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+      item.classList.remove('active');
+      if (item.getAttribute('href') === '#' + current) {
+        item.classList.add('active');
+        updateProgress();
+      }
+    });
+  });
+
+  updateProgress();
+</script>
+</body>
+</html>
